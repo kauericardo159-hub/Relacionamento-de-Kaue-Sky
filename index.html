@@ -1,9 +1,47 @@
-# Erro no site
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estatísticas Relacionamento - Sky & Kauê</title>
+    
+    <!-- Fonte e Ícones -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-O site principal ocorreu um problema grave, acontecendo com que o link estava levando para um site desconhecido. 
+    <!-- O corpo do site será montado dinamicamente pelos arquivos .js -->
 
-irei demorar para deixar esse site ter as mesmas coisas do antigo.
+<!-- Configuração da Manutenção -->
+<script>
+    // Configurações do modo manutenção
+    const emManutencaoManual = true; 
+    const dataLiberacaoTexto = "2026-05-23T23:59:00"; // Ajuste conforme necessário
+    
+    // Conteúdo da tela de erro
+    const tituloManutencao = "Erro no site";
+    const mensagemManutencao = "O site principal apresentou um problema grave, onde o link estava redirecionando para um site desconhecido. Irei demorar um pouco para garantir que este site tenha as mesmas funções e segurança do antigo. Não perdi os arquivos, estou apenas melhorando tudo. Espero que entenda :3. <br><br> - KaueTheProtogen";
 
-Não perdi os arquivos, só irei melhorar, espero que entenda :3.
+    let emManutencao = emManutencaoManual;
+    let dataAlvoObjeto = null;
 
-- KaueTheProtogen
+    if (!emManutencao && dataLiberacaoTexto) {
+        dataAlvoObjeto = new Date(dataLiberacaoTexto);
+        if (!isNaN(dataAlvoObjeto.getTime())) {
+            if (new Date() < dataAlvoObjeto) emManutencao = true;
+        }
+    }
+</script>
+
+    <!-- Scripts -->
+    <script src="manutencao.js"></script>
+<!--   <script src="script.js"></script> -->
+    <script src="card.js"></script>
+    <script src="creditos.js"></script>
+   <script src="estrelas.js"></script>
+
+</body>
+</html>
