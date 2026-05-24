@@ -1,27 +1,24 @@
 (function() {
     'use strict';
 
-    // Só executa o script se o site NÃO estiver em manutenção
     if (typeof emManutencao !== 'undefined' && emManutencao === true) {
         return; 
     }
 
-    // 1. Injeção de Estilos CSS para o Botão e Efeito de Ocultar
+    // 1. Injeção de Estilos Otimizados para Performance de Hardware
     const estilos = document.createElement('style');
     estilos.textContent = `
-        /* Container fixo para centralizar o botão no topo da tela */
         .container-gatilho-painel {
             position: fixed;
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            z-index: 9999; /* Garante que fique acima de tudo */
+            z-index: 9999;
             width: auto;
             display: flex;
             justify-content: center;
         }
 
-        /* Estilização Premium do Botão */
         .btn-toggle-paineis {
             background: rgba(13, 18, 30, 0.65);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -40,39 +37,37 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            /* Otimizado para usar apenas transform e opacity no hover */
+            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.2s ease, border-color 0.2s ease;
         }
 
-        /* Efeito de passar o mouse */
         .btn-toggle-paineis:hover {
             background: rgba(13, 18, 30, 0.85);
-            border-color: rgba(244, 114, 182, 0.4); /* Brilho rosa sutil */
+            border-color: rgba(244, 114, 182, 0.4);
             color: #ffffff;
             transform: translateY(2px) scale(1.02);
-            box-shadow: 0 12px 28px rgba(244, 114, 182, 0.1);
         }
 
-        /* Estilo do Ícone Interno */
         .btn-toggle-paineis i {
             font-size: 0.85rem;
-            transition: transform 0.3s ease;
         }
 
-        /* Classe de transição suave que será aplicada nos cards e créditos */
+        /* Elementos principais ganham preparação de GPU nativa */
         .card, .card-secundario, .container-creditos {
-            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            will-change: transform, opacity;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
         }
 
-        /* Classe ativa que esconde os elementos sem quebrar o layout */
+        /* Estado oculto usando apenas propriedades aceleradas por Hardware */
         .paineis-ocultos {
             opacity: 0 !important;
-            transform: translateY(20px) scale(0.95) !important;
+            transform: translateY(15px) scale(0.97) !important;
             pointer-events: none !important;
         }
     `;
     document.head.appendChild(estilos);
 
-    // 2. Criação da Estrutura do Botão no DOM
+    // 2. Criação da Estrutura Inicial no DOM
     const containerBotao = document.createElement('div');
     containerBotao.className = 'container-gatilho-painel';
 
@@ -86,33 +81,38 @@
     containerBotao.appendChild(botao);
     document.body.appendChild(containerBotao);
 
-    // 3. Lógica de Alternância (Toggle)
+    // Cache estático das referências textuais e de ícone
+    const textoBtn = document.getElementById('texto-btn-paineis');
+    const iconeBtn = botao.querySelector('i');
+    let estaoOcultos = false;
+
+    // 3. Lógica Otimizada (Evita QuerySelector repetitivo no clique)
     botao.addEventListener('click', () => {
-        // Seleciona de forma dinâmica todos os painéis criados pelos outros arquivos JS
-        const elementosParaOcultar = document.querySelectorAll('.card, .card-secundario, .container-creditos');
-        const textoBtn = document.getElementById('texto-btn-paineis');
-        const iconeBtn = botao.querySelector('i');
+        // Busca os elementos dinamicamente apenas na hora do clique, mas faz o loop de forma atômica
+        const elementos = document.querySelectorAll('.card, .card-secundario, .container-creditos');
+        
+        // Altera o estado lógico interno primeiro (Muitíssimo mais rápido)
+        estaoOcultos = !estaoOcultos;
 
-        // Verifica se o primeiro painel encontrado já está oculto
-        const primeiroElemento = elementosParaOcultar[0];
-        const estaoOcultos = primeiroElemento ? primeiroElemento.classList.contains('paineis-ocultos') : false;
+        // Atualização de UI em lote (Batching)
+        requestAnimationFrame(() => {
+            elementos.forEach(el => {
+                if (estaoOcultos) {
+                    el.classList.add('paineis-ocultos');
+                } else {
+                    el.classList.remove('paineis-ocultos');
+                }
+            });
 
-        elementosParaOcultar.forEach(el => {
+            // Atualização dos textos de estado
             if (estaoOcultos) {
-                el.classList.remove('paineis-ocultos');
+                textoBtn.textContent = 'Mostrar painéis';
+                iconeBtn.className = 'fa-solid fa-eye';
             } else {
-                el.classList.add('paineis-ocultos');
+                textoBtn.textContent = 'Esconder painéis';
+                iconeBtn.className = 'fa-solid fa-eye-slash';
             }
         });
-
-        // Atualiza o estado visual do botão principal
-        if (estaoOcultos) {
-            textoBtn.textContent = 'Esconder painéis';
-            iconeBtn.className = 'fa-solid fa-eye-slash';
-        } else {
-            textoBtn.textContent = 'Mostrar painéis';
-            iconeBtn.className = 'fa-solid fa-eye';
-        }
     });
 
 })();
