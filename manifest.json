@@ -1,0 +1,33 @@
+{
+  "name": "K & S - Conexão Eternizada",
+  "short_name": "K & S",
+  "description": "Espaço dedicado à nossa história e conexão.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#f472b6",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["lifestyle", "personal"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Nossa História",
+      "url": "./index.html",
+      "description": "Ver nosso tempo juntos"
+    }
+  ]
+}
