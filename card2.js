@@ -9,7 +9,7 @@
     cardSecundario.className = 'card-secundario';
     cardSecundario.id = 'container-card-secundario'; // Adicionei um ID para facilitar a busca
     cardSecundario.innerHTML = `
-        <h3 class="card-secundario-titulo">Nos conhecemos há:</h3>
+        <h3 class="card-secundario-titulo">Nós dois se conhecemos há:</h3>
         <div id="contador-tempo-conhecidos" class="contador-pequeno">Calculando...</div>
     `;
 
