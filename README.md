@@ -1,2 +1,2 @@
 # Est-ticas
-Isso é para relacionamento meu :3 
+Isso é para relacionamento meu :3
